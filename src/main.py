@@ -5,7 +5,7 @@ import adafruit_amg88xx
 import RPi.GPIO as GPIO
 
 # Frequency
-FREQ = 4
+FREQ = 2
 
 # Set up thermal AMG8833
 i2c = busio.I2C(board.SCL, board.SDA)
