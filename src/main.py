@@ -4,6 +4,9 @@ import board
 import adafruit_amg88xx
 import RPi.GPIO as GPIO
 
+# Frequency
+FREQ = 4
+
 # Set up thermal AMG8833
 i2c = busio.I2C(board.SCL, board.SDA)
 amg = adafruit_amg88xx.AMG88XX(i2c)
@@ -23,6 +26,7 @@ while True:
         for row in amg.pixels:
             print(["{0:.3f}".format(temp) for temp in row])
         print("\n")
-        time.sleep(4)
     else:
         print("Not doing, presence detected")
+    
+    time.sleep(FREQ)
