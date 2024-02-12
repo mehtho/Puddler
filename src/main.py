@@ -22,6 +22,7 @@ while True:
     if not GPIO.input(PIR_PIN):
         for row in amg.pixels:
             print(["{0:.3f}".format(temp) for temp in row])
-            print("")
         print("\n")
         time.sleep(4)
+    else:
+        print("Not doing, presence detected")
