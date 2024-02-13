@@ -13,7 +13,7 @@ amg = adafruit_amg88xx.AMG88XX(i2c)
 
 # Set up PIR
 GPIO.setmode(GPIO.BCM)
-PIR_PIN = 17
+PIR_PIN = 27
 
 GPIO.setup(PIR_PIN, GPIO.IN)
 
