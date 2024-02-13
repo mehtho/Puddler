@@ -3,6 +3,7 @@ import busio
 import board
 import adafruit_amg88xx
 import RPi.GPIO as GPIO
+import math
 import mpu6050
 import json
 
@@ -23,6 +24,7 @@ def read_acc_temp():
 
 class Record():
     def __init__(self, therm, gyr, ambient_temp, has_motion):
+        self.timestamp = math.floor(time.time() * 1000)
         self.therm = therm
         self.gyr = gyr
         self.ambient_temp = ambient_temp
