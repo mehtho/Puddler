@@ -21,7 +21,7 @@ def read_acc_temp():
 
     return gyroscope_data, temperature
 
-def Record():
+class Record():
     def __init__(self, therm, gyr, ambient_temp, has_motion):
         self.therm = therm
         self.gyr = gyr
