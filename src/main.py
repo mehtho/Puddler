@@ -1,6 +1,8 @@
 import time
 import busio
 import board
+import boto3
+from decimal import Decimal
 import adafruit_amg88xx
 import RPi.GPIO as GPIO
 import math
@@ -15,6 +17,19 @@ i2c = busio.I2C(board.SCL, board.SDA)
 amg = adafruit_amg88xx.AMG88XX(i2c)
 
 mpu6050 = mpu6050.mpu6050(0x68)
+
+# Set up AWS
+file = open('keys.txt', 'r')
+acki = file.readline().strip()
+asak = file.readline().strip()
+
+ddb = boto3.resource(
+    "dynamodb",
+    region_name="ap-southeast-1",
+    aws_access_key_id=acki,
+    aws_secret_access_key=asak
+    )
+raw = ddb.Table("raw-data")
 
 def read_acc_temp():
     gyroscope_data = mpu6050.get_gyro_data()
@@ -41,15 +56,11 @@ time.sleep(3)
 print('READY')
 
 while True:
-    # if not GPIO.input(PIR_PIN):
-    #     for row in amg.pixels:
-    #         print(["{0:.3f}".format(temp) for temp in row])
-    #     print("\n")
-    # else:
-    #     print("Not doing, presence detected")
     gyroscope, ambient = read_acc_temp()
     rec = Record(amg.pixels, gyroscope, ambient, GPIO.input(PIR_PIN))
     
-    print(json.dumps(rec.__dict__))
+    item = json.loads(json.dumps(rec.__dict__), parse_float=Decimal)
+    print(item)
+    raw.put_item(Item=item)
     
     time.sleep(FREQ)
