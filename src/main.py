@@ -48,6 +48,6 @@ while True:
     gyroscope, ambient = read_acc_temp()
     rec = Record(amg.pixels, gyroscope, ambient, GPIO.input(PIR_PIN))
     
-    print(json.dumps(rec))
+    print(json.dumps(rec.__dict__))
     
     time.sleep(FREQ)
