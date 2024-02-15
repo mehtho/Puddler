@@ -38,17 +38,20 @@ def read_acc_temp():
     return gyroscope_data, temperature
 
 class Record():
-    def __init__(self, therm, gyr, ambient_temp, has_motion):
+    def __init__(self, therm, gyr, ambient_temp, has_motion, has_puddle=False):
         self.timestamp = math.floor(time.time() * 1000)
         self.therm = therm
         self.gyr = gyr
         self.ambient_temp = ambient_temp
         self.has_motion = has_motion
+        self.has_puddle = has_puddle
 
 # Set up PIR
 GPIO.setmode(GPIO.BCM)
+LABEL_PIN = 26
 PIR_PIN = 27
 
+GPIO.setup(LABEL_PIN, GPIO.IN)
 GPIO.setup(PIR_PIN, GPIO.IN)
 
 print('Startup, give it 3 seconds')
@@ -57,7 +60,7 @@ print('READY')
 
 while True:
     gyroscope, ambient = read_acc_temp()
-    rec = Record(amg.pixels, gyroscope, ambient, GPIO.input(PIR_PIN))
+    rec = Record(amg.pixels, gyroscope, ambient, GPIO.input(PIR_PIN), GPIO.input(LABEL_PIN))
     
     item = json.loads(json.dumps(rec.__dict__), parse_float=Decimal)
     print(item)
