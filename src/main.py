@@ -51,7 +51,7 @@ GPIO.setmode(GPIO.BCM)
 LABEL_PIN = 26
 PIR_PIN = 27
 
-GPIO.setup(LABEL_PIN, GPIO.IN)
+GPIO.setup(LABEL_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIR_PIN, GPIO.IN)
 
 print('Startup, give it 3 seconds')
